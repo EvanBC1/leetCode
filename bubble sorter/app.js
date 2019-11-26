@@ -3,6 +3,9 @@ document.getElementById("nextStep").addEventListener("click", bubbleSort);
 document.getElementById("autoSort").addEventListener("click", autoSort);
 document.getElementById("stopAutoSort").addEventListener("click", stopAutoSort);
 
+let audio = new Audio('./assets/click.mp3');
+
+
 let box = 50;
 let sort;
 let arr = [4,3,2,11,8,1,12,7,6,9,5,10];
@@ -18,13 +21,13 @@ function drawBars (arr, changedBar) {
     if (i === changedBar) {
       console.log(changedBar);
       ctx.strokeStyle = "black";
-      ctx.strokeRect(box + (box * changedBar * 2), box * 16, box, -box * (arr[i]));
+      ctx.strokeRect(box + (box * changedBar * 2), box * 15, box, -box * (arr[i]));
       // ctx.strokeStyle = "red";
       // ctx.strokeRect(box + (box * (changedBar + 1) * 2), box * 16, box, -box * arr[changedBar + 1]);
 
       ctx.strokeStyle = "black";
     } else {
-      ctx.strokeRect(box + (box * i * 2), box * 16, box, -box * arr[i]);
+      ctx.strokeRect(box + (box * i * 2), box * 15, box, -box * arr[i]);
     }
   }
 }
@@ -37,6 +40,7 @@ function bubbleSort() {
   while(!sorted) {
     sorts = 0;
     for (let i = 0; i < arr.length - 1; i++) {
+      audio.play();
       drawBars(arr, arr[i]);
       if (arr[i] > arr[i + 1]) {
         sorts ++;
