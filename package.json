@@ -16,5 +16,8 @@
   "bugs": {
     "url": "https://github.com/EvanBC1/leetCode/issues"
   },
-  "homepage": "https://github.com/EvanBC1/leetCode#readme"
+  "homepage": "https://github.com/EvanBC1/leetCode#readme",
+  "dependencies": {
+    "nodemon": "^2.0.1"
+  }
 }
