@@ -1,5 +1,5 @@
 // button handlers
-document.getElementById("nextStep").addEventListener("click", bubbleSort);
+document.getElementById("nextStep").addEventListener("click", nextStep);
 document.getElementById("previousStep").addEventListener("click", previousStep);
 document.getElementById("autoSort").addEventListener("click", autoSort);
 document.getElementById("stopAutoSort").addEventListener("click", stopAutoSort);
@@ -9,13 +9,13 @@ let box = 25;
 let sort;
 let arr = [];
 let arrLength = 0;
-let steps = 0;
+let currentStep = 0;
 let savedArray = [];
 let audio = new Audio('./assets/click.mp3');
 
 // handle steps
 let stepsOutput = document.getElementById("steps");
-stepsOutput.innerHTML = steps;
+stepsOutput.innerHTML = currentStep;
 
 // slider handler
 let rangeSlider = document.getElementById("sliderRange");
@@ -37,15 +37,17 @@ function generateArray (arrLength) {
     const j = Math.floor(Math.random() * (i + 1));
     [arr[i], arr[j]] = [arr[j], arr[i]];
   }
+  console.log('scrambelled arrary', arr);
   drawBars(arr);
+  bubbleSort();
 }
 
-function drawBars (arr, changedBar) {
+function drawBars (arr) {
   let c = document.getElementById("bubble");
   let ctx = c.getContext("2d");
-  audio.play();
-
   ctx.clearRect(0, 0, 1200, 625);
+
+  audio.play();
 
   for (let i = 0; i < arr.length; i++) {
       ctx.strokeStyle = "blue";
@@ -57,44 +59,48 @@ function drawBars (arr, changedBar) {
 function bubbleSort() {
   let sorted = false;
   let sorts = 0;
+  savedArray = [];
+  savedArray.push(arr);
 
   while(!sorted) {
     sorts = 0;
     for (let i = 0; i < arr.length - 1; i++) {
-      steps ++;
-      stepsOutput.innerHTML = steps;
-      console.log(i);
       if (arr[i] > arr[i + 1]) {
         let temp = arr[i];
         arr[i] = arr[i + 1];
         arr[i + 1] = temp;
-
-        drawBars(arr);
         sorts ++;
-        // savedArray.push(arr);
-        // console.log(savedArray);
-        return;
+        let arr2 = arr.slice();
+        savedArray.push(arr2);
+        console.log(savedArray);
       }
     }
     if (sorts === 0) {
       sorted = true;
     }
   }
-  clearInterval(sort);
+}
+
+function nextStep() {
+  currentStep ++;
+  if (savedArray[currentStep]) {
+    stepsOutput.innerHTML = currentStep;
+    arr = savedArray[currentStep];
+    drawBars(arr);
+  }
 }
 
 function previousStep() {
-  arr = savedArray[2];
+  currentStep --;
+  arr = savedArray[currentStep];
   drawBars(arr);
-
 }
 
 function autoSort() {
-  sort = setInterval(bubbleSort, 200);
+  sort = setInterval(nextStep, 200);
 }
 
 function stopAutoSort() {
-  console.log('stop');
   clearInterval(sort);
 }
 generateArray(12);
