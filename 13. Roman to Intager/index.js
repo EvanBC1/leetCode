@@ -1,44 +1,72 @@
-let romanToInt = function(s) {
-  let value = 0;
-  for (let i = 0; i < s.length; i++) {
-    if (s.charAt(i) === 'I') {
-      value += 1;
-    } else if (s.charAt(i) === 'V') {
-      if (s.charAt(i - 1) === 'I') {
-        value -= 2;
-      }
-      value += 5;
-    } else if (s.charAt(i) === 'X') {
-      if (s.charAt(i - 1) === 'I') {
-        value -= 2;
-      }
-      value += 10;
-    } else if (s.charAt(i) === 'L') {
-      if (s.charAt(i - 1) === 'X') {
-        value -= 20;
-      }
-      value += 50;
-    } else if (s.charAt(i) === 'C') {
-      if (s.charAt(i - 1) === 'X') {
-        value -= 20;
-      }
-      value += 100;
-    } else if (s.charAt(i) === 'D') {
-      if (s.charAt(i - 1) === 'C') {
-        value -= 200;
-      }
-      value += 500;
-    } else if (s.charAt(i) === 'M') {
-      if (s.charAt(i - 1) === 'C') {
-        value -= 200;
-      }
-      value += 1000;
-    }
+const romanToInt = s => {
+  if (!s || s.length === 0) {
+    return 0;
   }
-  return value;
+
+  const map = new Map([['I', 1], ['V', 5], ['X', 10], ['L', 50], ['C', 100], ['D', 500], ['M', 1000]]);
+
+  let i = s.length - 1;
+  let result = map.get(s[i]);
+
+  while (i > 0) {
+    const curr = map.get(s[i]);
+    const prev = map.get(s[i - 1]);
+
+    if (prev >= curr) {
+      result += prev;
+    } else {
+      result -= prev;
+    }
+
+    i--;
+  }
+
+  return result;
 };
 
 console.log(romanToInt('MCMXCIV'));
+
+// let romanToInt = function(s) {
+//   let value = 0;
+//   for (let i = 0; i < s.length; i++) {
+//     if (s.charAt(i) === 'I') {
+//       value += 1;
+//     } else if (s.charAt(i) === 'V') {
+//       if (s.charAt(i - 1) === 'I') {
+//         value -= 2;
+//       }
+//       value += 5;
+//     } else if (s.charAt(i) === 'X') {
+//       if (s.charAt(i - 1) === 'I') {
+//         value -= 2;
+//       }
+//       value += 10;
+//     } else if (s.charAt(i) === 'L') {
+//       if (s.charAt(i - 1) === 'X') {
+//         value -= 20;
+//       }
+//       value += 50;
+//     } else if (s.charAt(i) === 'C') {
+//       if (s.charAt(i - 1) === 'X') {
+//         value -= 20;
+//       }
+//       value += 100;
+//     } else if (s.charAt(i) === 'D') {
+//       if (s.charAt(i - 1) === 'C') {
+//         value -= 200;
+//       }
+//       value += 500;
+//     } else if (s.charAt(i) === 'M') {
+//       if (s.charAt(i - 1) === 'C') {
+//         value -= 200;
+//       }
+//       value += 1000;
+//     }
+//   }
+//   return value;
+// };
+//
+// console.log(romanToInt('MCMXCIV'));
 
 // Roman numerals are represented by seven different symbols: I, V, X, L, C, D and M.
 //
