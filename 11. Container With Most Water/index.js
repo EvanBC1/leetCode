@@ -31,7 +31,7 @@ let maxArea = function(height) {
   return 'largest area = ' + largestArea + ' operations = ' + operations;
 };
 
-console.log(maxArea([2,3,10,5,7,8,9]));
+// console.log(maxArea([2,3,10,5,7,8,9]));
 
 /*
 I plan on using a 2 pointer model. The first pointer will point to the first wall and the second to the right side wall.
